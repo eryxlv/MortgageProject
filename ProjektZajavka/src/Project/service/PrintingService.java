@@ -1,4 +1,4 @@
-package Project.model.service;
+package Project.service;
 
 import Project.model.InputData;
 
