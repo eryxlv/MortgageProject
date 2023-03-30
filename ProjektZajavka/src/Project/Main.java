@@ -1,7 +1,6 @@
 package Project;
 
-import Project.model.InputData;
-import Project.model.Rate;
+import Project.model.*;
 import Project.service.*;
 
 import java.math.BigDecimal;
@@ -15,7 +14,11 @@ public class Main {
 
 
         PrintingService printingService = new PrintingServiceImplementation();
-        RateCalculationService rateCalculationService = new RateCalculationServiceImplementation();
+        RateCalculationService rateCalculationService = new RateCalculationServiceImplementation(
+                new TimePointServiceImplementation(),
+                new AmountsCalculationServiceImplementation(),
+                new ResidualCalculationServiceImplementation()
+        );
         MortgageCalculationService mortgageCalculationService = new MortgageCalculationImplementation(
                 printingService,
                 rateCalculationService
