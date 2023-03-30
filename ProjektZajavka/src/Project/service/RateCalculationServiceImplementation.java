@@ -50,7 +50,7 @@ public class RateCalculationServiceImplementation implements RateCalculationServ
 
     private Rate calculateRate(BigDecimal rateNumber, InputData inputData) {
         TimePoint timePoint = timePointService.calculate(rateNumber, inputData);
-        RateAmounts rateAmounts = amountsCalculationService.calculate();
+        RateAmounts rateAmounts = amountsCalculationService.calculate(inputData);
         MortgageResidual mortgageResidual = residualCalculationService.calculate();
 
         return new Rate(rateNumber, timePoint, rateAmounts, mortgageResidual);
@@ -58,7 +58,7 @@ public class RateCalculationServiceImplementation implements RateCalculationServ
 
     private Rate calculateRate(BigDecimal rateNumber, InputData inputData, Rate previousRate) {
         TimePoint timePoint = timePointService.calculate(rateNumber, inputData);
-        RateAmounts rateAmounts = amountsCalculationService.calculate();
+        RateAmounts rateAmounts = amountsCalculationService.calculate(inputData, previousRate);
         MortgageResidual mortgageResidual = residualCalculationService.calculate();
 
         return new Rate(rateNumber, timePoint, rateAmounts, mortgageResidual);
