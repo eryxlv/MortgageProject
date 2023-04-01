@@ -10,6 +10,7 @@ import java.math.RoundingMode;
 public class AmountsCalculationServiceImplementation implements AmountsCalculationService {
 
     private static final BigDecimal YEAR = new BigDecimal("12");
+    private int calc;
 
     @Override
     public RateAmounts calculate(InputData inputData) {
