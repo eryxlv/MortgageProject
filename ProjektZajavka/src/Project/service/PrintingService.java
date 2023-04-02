@@ -2,25 +2,23 @@ package Project.service;
 
 import Project.model.InputData;
 
-public interface PrintingService {
+public class PrintingService implements IPrintingService {
 
-    String INTEREST_SUM = "SUMA ODSETEK ";
-    String RATE_NUMBER = "NR:  ";
-    String YEAR = "ROK: ";
-    String MONTH = "MIESIAC: ";
-    String DATE = "DATA: ";
-    String MONTHS = " MIESIECY ";
-    String RATE = "RATA: ";
-    String INTEREST = "OPROCENTOWANIE: ";
-    String CAPITAL = "KAPITAL: ";
-    String LEFT = "POZOSTALO: ";
-    String MORTGAGE_AMOUNT = "KWOTA KREDYTU: ";
-    String MORTGAGE_PERIOD = "OKRES KREYDOTOWANIA: ";
+    @Override
+    public void printInputDateInfo(InputData inputData) {
+        StringBuilder msg = new StringBuilder(NEW_LINE);
+        msg.append(MORTGAGE_AMOUNT).append(inputData.getAmount()).append(CURRENCY);
+        msg.append(NEW_LINE);
+        msg.append(MORTGAGE_PERIOD).append(inputData.getMonthsDuration()).append(MONTHS);
+        msg.append(NEW_LINE);
+        msg.append(INTEREST).append(inputData.getInterestDisplay()).append(PERCENT);
+        msg.append(NEW_LINE);
 
-    String CURRENCY = " ZL ";
-    String NEW_LINE = "\n";
-    String PERCENT = "% ";
+        printMessage(msg);
+    }
 
+    private void printMessage(StringBuilder sb) {
+        System.out.println(sb);
+    }
 
-    void printInputDateInfo(final InputData inputData);
 }

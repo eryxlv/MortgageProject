@@ -9,20 +9,19 @@ public class Main {
     public static void main(String[] args) {
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("298000"))
-                .withMonthsDuration(new BigDecimal("160"));
+                .withAmount(new BigDecimal("298000"));
 
 
-        PrintingService printingService = new PrintingServiceImplementation();
-        RateCalculationService rateCalculationService = new RateCalculationServiceImplementation(
-                new TimePointServiceImplementation(),
-                new AmountsCalculationServiceImplementation(),
-                new ResidualCalculationServiceImplementation()
+        IPrintingService IPrintingService = new PrintingService();
+        IRateCalculationService IRateCalculationService = new RateCalculationService(
+                new TimePointService(),
+                new AmountsCalculationService(),
+                new ResidualCalculationService()
         );
-        MortgageCalculationService mortgageCalculationService = new MortgageCalculationImplementation(
-                printingService,
-                rateCalculationService
+        IMortgageCalculationService IMortgageCalculationService = new MortgageCalculation(
+                IPrintingService,
+                IRateCalculationService
         );
-        mortgageCalculationService.calculate(inputData);
+        IMortgageCalculationService.calculate(inputData);
     }
 }

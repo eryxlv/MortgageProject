@@ -2,7 +2,7 @@ package Project.service;
 
 import Project.model.InputData;
 
-public interface MortgageCalculationService {
+public interface IMortgageCalculationService {
 
     void calculate(final InputData inputData);
 }
