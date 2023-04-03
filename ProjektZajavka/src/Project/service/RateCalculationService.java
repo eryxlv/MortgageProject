@@ -10,18 +10,18 @@ public class RateCalculationService implements IRateCalculationService {
 
     private final ITimePointService ITimePointService;
 
-    private final IAmountsCalculationService IAmountsCalculationService;
+    private final IAmountsCalculationService amountsCalculationService;
 
-    private final IResidualCalculationService IResidualCalculationService;
+    private final IResidualCalculationService residualCalculationService;
 
     public RateCalculationService(
             ITimePointService ITimePointService,
-            IAmountsCalculationService IAmountsCalculationService,
-            IResidualCalculationService IResidualCalculationService
+            IAmountsCalculationService amountsCalculationService,
+            IResidualCalculationService residualCalculationService
     ) {
         this.ITimePointService = ITimePointService;
-        this.IAmountsCalculationService = IAmountsCalculationService;
-        this.IResidualCalculationService = IResidualCalculationService;
+        this.amountsCalculationService = amountsCalculationService;
+        this.residualCalculationService = residualCalculationService;
     }
 
     @Override
@@ -31,16 +31,17 @@ public class RateCalculationService implements IRateCalculationService {
         BigDecimal rateNumber = BigDecimal.ONE;
 
         Rate firstRate = calculateRate(rateNumber, inputData);
+
         rates.add(firstRate);
 
         Rate previousRate = firstRate;
 
         for (
-                BigDecimal input = rateNumber.add(BigDecimal.ONE);
-                input.compareTo(inputData.getMonthsDuration()) <= 0;
-                input = input.add(BigDecimal.ONE)
+                BigDecimal index = rateNumber.add(BigDecimal.ONE);
+                index.compareTo(inputData.getMonthsDuration()) <= 0;
+                index = index.add(BigDecimal.ONE)
         ) {
-            Rate nextRate = calculateRate(input, inputData, previousRate);
+            Rate nextRate = calculateRate(index, inputData, previousRate);
             rates.add(nextRate);
             previousRate = nextRate;
         }
@@ -50,16 +51,16 @@ public class RateCalculationService implements IRateCalculationService {
 
     private Rate calculateRate(BigDecimal rateNumber, InputData inputData) {
         TimePoint timePoint = ITimePointService.calculate(rateNumber, inputData);
-        RateAmounts rateAmounts = IAmountsCalculationService.calculate(inputData);
-        MortgageResidual mortgageResidual = IResidualCalculationService.calculate(rateAmounts, inputData);
+        RateAmounts rateAmounts = amountsCalculationService.calculate(inputData);
+        MortgageResidual mortgageResidual = residualCalculationService.calculate(rateAmounts, inputData);
 
         return new Rate(rateNumber, timePoint, rateAmounts, mortgageResidual);
     }
 
     private Rate calculateRate(BigDecimal rateNumber, InputData inputData, Rate previousRate) {
         TimePoint timePoint = ITimePointService.calculate(rateNumber, inputData);
-        RateAmounts rateAmounts = IAmountsCalculationService.calculate(inputData, previousRate);
-        MortgageResidual mortgageResidual = IResidualCalculationService.calculate(rateAmounts, previousRate);
+        RateAmounts rateAmounts = amountsCalculationService.calculate(inputData, previousRate);
+        MortgageResidual mortgageResidual = residualCalculationService.calculate(rateAmounts, previousRate);
 
         return new Rate(rateNumber, timePoint, rateAmounts, mortgageResidual);
     }

@@ -1,6 +1,9 @@
 package Project.service;
 
 import Project.model.InputData;
+import Project.model.Rate;
+
+import java.util.List;
 
 public class PrintingService implements IPrintingService {
 
@@ -21,4 +24,35 @@ public class PrintingService implements IPrintingService {
         System.out.println(sb);
     }
 
+    private void printMessage(String sb) {
+        System.out.println(sb);
+    }
+
+    @Override
+    public void printRates(List<Rate> rates) {
+        String format = "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s " +
+                "%s %s ";
+
+        for (Rate rate : rates) {
+            String message = String.format(format,
+                    RATE_NUMBER, rate.getRateNumber(),
+                    DATE, rate.getTimePoint().getDate(),
+                    YEAR, rate.getTimePoint().getYear(),
+                    MONTH, rate.getTimePoint().getMonth(),
+                    RATE, rate.getRateAmounts().getRateAmount(),
+                    INTEREST, rate.getRateAmounts().getInterestAmount(),
+                    CAPITAL, rate.getRateAmounts().getCapitalAmount(),
+                    LEFT_AMOUNT, rate.getMortgageResidual().getAmount(),
+                    LEFT_MONTHS, rate.getMortgageResidual().getDuration()
+            );
+            printMessage(message);
+        }
+    }
 }

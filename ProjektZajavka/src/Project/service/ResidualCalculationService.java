@@ -20,7 +20,7 @@ public class ResidualCalculationService implements IResidualCalculationService {
     public MortgageResidual calculate(RateAmounts rateAmounts, Rate previousRate) {
         MortgageResidual residual = previousRate.getMortgageResidual();
 
-        BigDecimal residualAmount = residual.getAmount().subtract(rateAmounts.getRateAmount());
+        BigDecimal residualAmount = residual.getAmount().subtract(rateAmounts.getCapitalAmount());
         BigDecimal residualDuration = residual.getDuration().subtract(BigDecimal.ONE);
 
         return new MortgageResidual(residualAmount, residualDuration);

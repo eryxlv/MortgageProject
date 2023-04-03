@@ -7,24 +7,26 @@ import java.util.List;
 
 public class MortgageCalculation implements IMortgageCalculationService {
 
-    private final IPrintingService IPrintingService;
+    private final IPrintingService printingService;
 
-    private final IRateCalculationService IRateCalculationService;
+    private final IRateCalculationService rateCalculationService;
 
     public MortgageCalculation(
-            IPrintingService IPrintingService,
-            IRateCalculationService IRateCalculationService
+            IPrintingService printingService,
+            IRateCalculationService rateCalculationService
     ) {
-        this.IPrintingService = IPrintingService;
-        this.IRateCalculationService = IRateCalculationService;
+        this.printingService = printingService;
+        this.rateCalculationService = rateCalculationService;
     }
 
 
     @Override
     public void calculate(InputData inputData) {
-        IPrintingService.printInputDateInfo(inputData);
+        printingService.printInputDateInfo(inputData);
 
-        List<Rate> rates = IRateCalculationService.calculate(inputData);
+        List<Rate> rates = rateCalculationService.calculate(inputData);
+
+        printingService.printRates(rates);
     }
 
 

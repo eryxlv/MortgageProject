@@ -22,6 +22,11 @@ public class TimePointService implements ITimePointService {
         return new TimePoint(date, year, month);
     }
 
+    private LocalDate calculateDate(BigDecimal rateNumber, InputData inputData) {
+        return inputData.getRepaymentStartDate()
+                .plus(rateNumber.subtract(BigDecimal.ONE).intValue(), ChronoUnit.MONTHS);
+    }
+
     private BigDecimal calculateYear(final BigDecimal rateNumber) {
         return rateNumber.divide(YEAR, RoundingMode.UP).max(BigDecimal.ONE);
     }
@@ -30,9 +35,6 @@ public class TimePointService implements ITimePointService {
         return BigDecimal.ZERO.equals(rateNumber.remainder(YEAR)) ? YEAR : rateNumber.remainder(YEAR);
     }
 
-    private LocalDate calculateDate(BigDecimal rateNumber, InputData inputData) {
-        return inputData.getRepaymentStartDate()
-                .plus(rateNumber.subtract(BigDecimal.ONE).intValue(), ChronoUnit.MONTHS);
-    }
+
 
 }

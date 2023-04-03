@@ -12,16 +12,16 @@ public class Main {
                 .withAmount(new BigDecimal("298000"));
 
 
-        IPrintingService IPrintingService = new PrintingService();
-        IRateCalculationService IRateCalculationService = new RateCalculationService(
+        IPrintingService printingService = new PrintingService();
+        IRateCalculationService rateCalculationService = new RateCalculationService(
                 new TimePointService(),
                 new AmountsCalculationService(),
                 new ResidualCalculationService()
         );
-        IMortgageCalculationService IMortgageCalculationService = new MortgageCalculation(
-                IPrintingService,
-                IRateCalculationService
+        IMortgageCalculationService mortgageCalculationService = new MortgageCalculation(
+                printingService,
+                rateCalculationService
         );
-        IMortgageCalculationService.calculate(inputData);
+        mortgageCalculationService.calculate(inputData);
     }
 }

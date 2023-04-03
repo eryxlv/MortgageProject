@@ -1,6 +1,9 @@
 package Project.service;
 
 import Project.model.InputData;
+import Project.model.Rate;
+
+import java.util.List;
 
 public interface IPrintingService {
 
@@ -11,9 +14,10 @@ public interface IPrintingService {
     String DATE = "DATA: ";
     String MONTHS = " MIESIECY ";
     String RATE = "RATA: ";
-    String INTEREST = "OPROCENTOWANIE: ";
+    String INTEREST = "ODSETKI: ";
     String CAPITAL = "KAPITAL: ";
-    String LEFT = "POZOSTALO: ";
+    String LEFT_AMOUNT = "POZOSTALA KWOTA: ";
+    String LEFT_MONTHS = "POZOSTALO MIESIECY: ";
     String MORTGAGE_AMOUNT = "KWOTA KREDYTU: ";
     String MORTGAGE_PERIOD = "OKRES KREYDOTOWANIA: ";
 
@@ -23,4 +27,6 @@ public interface IPrintingService {
 
 
     void printInputDateInfo(final InputData inputData);
+
+    void printRates(List<Rate> rates);
 }
