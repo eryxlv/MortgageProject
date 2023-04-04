@@ -1,10 +1,12 @@
 package Project.service;
 
 import Project.model.InputData;
+import Project.model.Overpayment;
 import Project.model.Rate;
 import Project.model.Summary;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PrintingService implements IPrintingService {
 
@@ -18,7 +20,28 @@ public class PrintingService implements IPrintingService {
         msg.append(INTEREST).append(inputData.getInterestDisplay()).append(PERCENT);
         msg.append(NEW_LINE);
 
-        printMessage(msg);
+        Optional.of(inputData.getOverpaymentSchema())
+                        .filter(schema -> schema.size() > 0)
+                                .ifPresent(schema -> logOverpayment(msg, inputData));
+
+        printMessage(msg.toString());
+    }
+
+    private void logOverpayment(StringBuilder msg, InputData inputData) {
+        switch(inputData.getOverpaymentReduceWay()){
+            case Overpayment.REDUCE_PERIOD:
+                msg.append(OVERPAYMENT_REDUCE_PERIOD);
+                break;
+            case Overpayment.REDUCE_RATE:
+                msg.append(OVERPAYMENT_REDUCE_RATE);
+                break;
+            default:
+                throw new MortgageException();
+        }
+
+        msg.append(NEW_LINE);
+        msg.append(OVERPAYMENT_FREQUENCY).append(inputData.getOverpaymentReduceWay());
+        msg.append(NEW_LINE);
     }
 
     private void printMessage(StringBuilder sb) {
@@ -31,15 +54,17 @@ public class PrintingService implements IPrintingService {
 
     @Override
     public void printRates(List<Rate> rates) {
-        String format = "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s | " +
-                "%s %s ";
+        String format =
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  " +
+                "%s %s  |  ";
 
         for (Rate rate : rates) {
             String message = String.format(format,
@@ -50,6 +75,7 @@ public class PrintingService implements IPrintingService {
                     RATE, rate.getRateAmounts().getRateAmount(),
                     INTEREST, rate.getRateAmounts().getInterestAmount(),
                     CAPITAL, rate.getRateAmounts().getCapitalAmount(),
+                    OVERPAYMENT, rate.getRateAmounts().getOverpayment().getAmount(),
                     LEFT_AMOUNT, rate.getMortgageResidual().getAmount(),
                     LEFT_MONTHS, rate.getMortgageResidual().getDuration()
             );
@@ -66,6 +92,10 @@ public class PrintingService implements IPrintingService {
     public void printSummary(Summary summary) {
         StringBuilder msg = new StringBuilder(NEW_LINE);
         msg.append(INTEREST_SUM).append(summary.getInterestSum()).append(CURRENCY);
+        msg.append(NEW_LINE);
+        msg.append(OVERPAYMENT_PROVISION).append(summary.getOverpaymentProvisionSum()).append(CURRENCY);
+        msg.append(NEW_LINE);
+        msg.append(LOSTS_SUM).append(summary.getTotalLosts()).append(CURRENCY);
         msg.append(NEW_LINE);
 
         printMessage(msg.toString());

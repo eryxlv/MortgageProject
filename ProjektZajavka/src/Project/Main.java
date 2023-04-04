@@ -18,7 +18,9 @@ public class Main {
         IRateCalculationService rateCalculationService = new RateCalculationService(
                 new TimePointService(),
                 new AmountsCalculationService(),
-                new ResidualCalculationService()
+                new OverpaymentCalculationService(),
+                new ResidualCalculationService(),
+                new ReferenceCalculationService()
         );
         IMortgageCalculationService mortgageCalculationService = new MortgageCalculation(
                 printingService,
