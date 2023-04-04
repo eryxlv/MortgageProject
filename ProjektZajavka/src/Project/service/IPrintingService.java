@@ -2,6 +2,7 @@ package Project.service;
 
 import Project.model.InputData;
 import Project.model.Rate;
+import Project.model.Summary;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface IPrintingService {
     void printInputDateInfo(final InputData inputData);
 
     void printRates(List<Rate> rates);
+
+    void printSummary(Summary summary);
 }

@@ -2,6 +2,7 @@ package Project.service;
 
 import Project.model.InputData;
 import Project.model.Rate;
+import Project.model.Summary;
 
 import java.util.List;
 
@@ -30,14 +31,14 @@ public class PrintingService implements IPrintingService {
 
     @Override
     public void printRates(List<Rate> rates) {
-        String format = "%s %s " +
-                "%s %s " +
-                "%s %s " +
-                "%s %s " +
-                "%s %s " +
-                "%s %s " +
-                "%s %s " +
-                "%s %s " +
+        String format = "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
+                "%s %s | " +
                 "%s %s ";
 
         for (Rate rate : rates) {
@@ -53,6 +54,20 @@ public class PrintingService implements IPrintingService {
                     LEFT_MONTHS, rate.getMortgageResidual().getDuration()
             );
             printMessage(message);
+
+            if (rate.getRateNumber().intValue() % 12 == 0) {
+                System.out.println();
+            }
         }
+    }
+
+    @Override
+    @SuppressWarnings("StringBufferReplaceableByString")
+    public void printSummary(Summary summary) {
+        StringBuilder msg = new StringBuilder(NEW_LINE);
+        msg.append(INTEREST_SUM).append(summary.getInterestSum()).append(CURRENCY);
+        msg.append(NEW_LINE);
+
+        printMessage(msg.toString());
     }
 }

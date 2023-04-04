@@ -9,7 +9,9 @@ public class Main {
     public static void main(String[] args) {
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("298000"));
+                .withAmount(new BigDecimal("298000"))
+                .withMonthsDuration(BigDecimal.valueOf(360))
+                .withRateType(RateType.CONSTANT);
 
 
         IPrintingService printingService = new PrintingService();
@@ -20,7 +22,8 @@ public class Main {
         );
         IMortgageCalculationService mortgageCalculationService = new MortgageCalculation(
                 printingService,
-                rateCalculationService
+                rateCalculationService,
+                SummaryServiceFactory.create()
         );
         mortgageCalculationService.calculate(inputData);
     }
