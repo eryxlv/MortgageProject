@@ -9,8 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("298000"))
-                .withMonthsDuration(BigDecimal.valueOf(360))
+                .withAmount(new BigDecimal("500000"))
+                .withMonthsDuration(BigDecimal.valueOf(180))
+                .withWiborPercent(BigDecimal.valueOf(6.9))
+                .withBankMarginPercent(BigDecimal.valueOf(9.35))
                 .withRateType(RateType.CONSTANT);
 
 

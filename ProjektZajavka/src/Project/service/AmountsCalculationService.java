@@ -85,6 +85,14 @@ public class AmountsCalculationService implements IAmountsCalculationService {
         return new RateAmounts(rateAmount, interestAmount, capitalAmount, overpayment);
     }
 
+    private BigDecimal calculateInterestAmount(BigDecimal residualAmount, BigDecimal interestPercent) {
+        return residualAmount.multiply(interestPercent).divide(YEAR, 50, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal calculateDecreasingCapitalAmount(BigDecimal amount, BigDecimal monthsDuration) {
+        return amount.divide(monthsDuration, 50, RoundingMode.HALF_UP);
+    }
+
     private BigDecimal calculateConstantRateAmount(BigDecimal q, BigDecimal amount, BigDecimal monthsDuration) {
         return amount
                 .multiply(q.pow(monthsDuration.intValue()))
@@ -92,16 +100,8 @@ public class AmountsCalculationService implements IAmountsCalculationService {
                 .divide(q.pow(monthsDuration.intValue()).subtract(BigDecimal.ONE), 50, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateInterestAmount(BigDecimal residualAmount, BigDecimal interestPercent) {
-        return residualAmount.multiply(interestPercent).divide(YEAR, 50, RoundingMode.HALF_UP);
-    }
-
     private BigDecimal calculateConstantCapitalAmount(BigDecimal rateAmount, BigDecimal interestAmount) {
         return rateAmount.subtract(interestAmount);
-    }
-
-    private BigDecimal calculateDecreasingCapitalAmount(BigDecimal amount, BigDecimal monthsDuration) {
-        return amount.divide(monthsDuration, 50, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateQ(BigDecimal interestPercent) {

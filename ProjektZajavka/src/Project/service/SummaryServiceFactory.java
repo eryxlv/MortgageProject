@@ -5,7 +5,6 @@ import Project.model.Summary;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.function.Function;
 
 public class SummaryServiceFactory {
     public static ISummaryService create() {
@@ -13,11 +12,14 @@ public class SummaryServiceFactory {
             BigDecimal interestSum = calculate(
                     rates,
                     rate -> rate.getRateAmounts().getInterestAmount());
+
             BigDecimal provisions = calculate(
                     rates,
                     rate -> rate.getRateAmounts().getOverpayment().getProvisionAmount());
-            BigDecimal totalLosts = interestSum.add(provisions);
-            return new Summary(interestSum, provisions, totalLosts);
+
+            BigDecimal totalLost = interestSum.add(provisions);
+
+            return new Summary(interestSum, provisions, totalLost);
         };
     }
 

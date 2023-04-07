@@ -20,9 +20,9 @@ public class PrintingService implements IPrintingService {
         msg.append(INTEREST).append(inputData.getInterestDisplay()).append(PERCENT);
         msg.append(NEW_LINE);
 
-        Optional.of(inputData.getOverpaymentSchema())
+        Optional.ofNullable(inputData.getOverpaymentSchema())
                         .filter(schema -> schema.size() > 0)
-                                .ifPresent(schema -> logOverpayment(msg, inputData));
+                        .ifPresent(schema -> logOverpayment(msg, inputData));
 
         printMessage(msg.toString());
     }
@@ -55,16 +55,16 @@ public class PrintingService implements IPrintingService {
     @Override
     public void printRates(List<Rate> rates) {
         String format =
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  " +
-                "%s %s  |  ";
+                "%s %3s  | " +
+                "%4s %3s  | " +
+                "%3s %2s  | " +
+                "%4s %2s  | " +
+                "%4s %8s  | " +
+                "%6s %7s  | " +
+                "%7s %7s  | " +
+                "%7s %8s  | " +
+                "%7s %10s  | " +
+                "%7s %3s  | ";
 
         for (Rate rate : rates) {
             String message = String.format(format,
