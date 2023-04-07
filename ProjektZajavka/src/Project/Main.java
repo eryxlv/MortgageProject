@@ -9,17 +9,18 @@ public class Main {
     public static void main(String[] args) {
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("500000"))
-                .withMonthsDuration(BigDecimal.valueOf(180))
-                .withWiborPercent(BigDecimal.valueOf(6.9))
-                .withBankMarginPercent(BigDecimal.valueOf(9.35))
-                .withRateType(RateType.CONSTANT);
+                .withAmount(new BigDecimal("298000"))
+                .withMonthsDuration(BigDecimal.valueOf(360))
+                .withRateType(RateType.DECREASING);
 
 
         IPrintingService printingService = new PrintingService();
         IRateCalculationService rateCalculationService = new RateCalculationService(
                 new TimePointService(),
-                new AmountsCalculationService(),
+                new AmountsCalculationService(
+                        new ConstantAmountsCalculationService(),
+                        new DecreasingAmountsCalculationService()
+                ),
                 new OverpaymentCalculationService(),
                 new ResidualCalculationService(),
                 new ReferenceCalculationService()

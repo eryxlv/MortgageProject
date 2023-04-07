@@ -7,7 +7,7 @@ import Project.model.RateAmounts;
 
 public interface IDecreasingAmountsCalculationService {
 
-    RateAmounts calculateDecreasingRate(InputData inputData, Overpayment overpayment);
+    RateAmounts calculate(InputData inputData, Overpayment overpayment);
 
-    RateAmounts calculateDecreasingRate(InputData inputData, Overpayment overpayment, Rate previousRate);
+    RateAmounts calculate(InputData inputData, Overpayment overpayment, Rate previousRate);
 }

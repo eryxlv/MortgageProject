@@ -8,7 +8,7 @@ import Project.model.RateAmounts;
 public interface IConstantAmountsCalculationService {
 
 
-    RateAmounts calculateConstantRate(InputData inputData, Overpayment overpayment);
+    RateAmounts calculate(InputData inputData, Overpayment overpayment);
 
-    RateAmounts calculateConstantRate(InputData inputData, Overpayment overpayment, Rate previousRate);
+    RateAmounts calculate(InputData inputData, Overpayment overpayment, Rate previousRate);
 }
