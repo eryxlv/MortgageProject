@@ -12,7 +12,7 @@ public class Main {
                 .withAmount(new BigDecimal("298000"))
                 .withMonthsDuration(BigDecimal.valueOf(360))
                 .withRateType(RateType.CONSTANT)
-                .withOverpaymentReduceWay(Overpayment.REDUCE_RATE);
+                .withOverpaymentReduceWay(Overpayment.REDUCE_PERIOD);
 
 
         IPrintingService printingService = new PrintingService();
